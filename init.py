@@ -14,7 +14,7 @@ headers = {'Content-Type':'application/json'}
 
 
 def create_user():
-    r = requests.post(AL_HOST + '/api/users', headers= headers, data =  '{"email": " ' + faker.email() + ' "}')
+    r = requests.post(AL_HOST + '/api/users', headers= headers, data =  '{"email": "' + faker.email() + '"}')
     key = str(r.json()["accessTokens"][0]["accessKey"])
     secret = str(r.json()["accessTokens"][0]["accessSecret"])
     userAndPass = "Basic " + b64encode(key + ":" + secret).decode("ascii")
