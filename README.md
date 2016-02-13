@@ -7,12 +7,25 @@ Install dependencies
 
 ## How to run load tests?
 
+
+### Basic scenario
+
+Create user and required data structures in Acronis Ledger:
+
+`python setup_ledger.py`
+
 In a terminal run:
 
 `locust --host=http://167.114.247.67:8080`
 
-Open a web monitor `http://127.0.0.1:8089` and run load test
+Open a web monitor `http://127.0.0.1:8089` and run load test.
 
+![Load](https://api.monosnap.com/rpc/file/download?id=ZpyRHYKB7ZEdxY1bGHUfK18D2b7zhg)
+
+
+### Advanced scenario
+
+  TODO
 
 ## Scripts overview
 
