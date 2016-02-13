@@ -1,6 +1,11 @@
 # Load testing scripts for the nrd.ru pilot project
 
-## Scripts description
+## Installation
+
+Clone the repo:
+
+`https://github.com/igorbarinov/acronis-nrd-scripts.git`
+
 Install dependencies
 
 `pip install -r requirements.txt`
