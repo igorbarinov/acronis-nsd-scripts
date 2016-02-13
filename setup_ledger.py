@@ -26,9 +26,10 @@ Create user
 
 """
 
-import click
-@click.command()
-@click.option('--timestamp-weight', default=1, help='Weight of a timestamp operation')
+# TODO implement click
+# import click
+# @click.command()
+# @click.option('--timestamp-weight', default=1, help='Weight of a timestamp operation')
 
 
 def create_user():
@@ -37,9 +38,11 @@ def create_user():
     secret = str(r.json()["accessTokens"][0]["accessSecret"])
     userAndPass = "Basic " + b64encode(key + ":" + secret).decode("ascii")
     return userAndPass
+logger.debug('Starting creating user')
 
 AL_AUTH = str(create_user())
 parser.set('general', 'auth', AL_AUTH)
+logger.debug('User created')
 
 def create_journal():
     payload = '{"name": "' + faker.name() + '", "type": "blockchain_merkletree"}'
