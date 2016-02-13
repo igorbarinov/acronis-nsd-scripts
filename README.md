@@ -11,7 +11,8 @@ In a terminal run:
 
 `locust --host=http://167.114.247.67:8080`
 
-Open 
+Open a web monitor `http://127.0.0.1:8089` and run load test
+
 
 ## Scripts overview
 
