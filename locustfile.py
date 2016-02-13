@@ -1,13 +1,33 @@
+#!/usr/bin/env python
+# Author: Igor Barinov <igorbarinov@me.com>
+
 from locust import HttpLocust, TaskSet, task
 import requests
 from ConfigParser import SafeConfigParser
 import datetime
 
+# setup loggging
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
+# load configuration
 parser = SafeConfigParser()
 parser.read('load.ini')
 AL_JOURNAL = parser.get('general', 'journal')
 AL_HOST = parser.get('general', 'host')
 AL_AUTH = parser.get('general','auth')
+
+"""
+Run this script in standalone mode
+locust --host=http://167.114.247.67:8080
+or use it as master node. You have to
+locust  --master-host=167.114.247.67:8080
+or use it as slave and connect to a master
+locust  --slave --master-host=167.114.247.67:8080
+"""
+
+
 
 class UserBehavior(TaskSet):
     def on_start(self):
