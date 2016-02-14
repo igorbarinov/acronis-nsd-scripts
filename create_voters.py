@@ -21,6 +21,10 @@ random_generator = Random.new().read
 This script generates private/public keys for number of users defined in
 NUMBER_OF_VOTERS constant.
 
+For 100,000 key of Macbook Air 2012 it takes about 120 minutes to generate keypairs.
+Private keys are stored in data/private_keys.p python pickle database file.
+Public keys are stored in data/public_keys.p python pickle database file
+
 """
 
 NUMBER_OF_VOTERS = 100000;

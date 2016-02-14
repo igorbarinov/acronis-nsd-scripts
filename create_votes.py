@@ -28,13 +28,12 @@ NUMBER_OF_VOTES constant.
 
 """
 PRIVATE_KEY_FILE = 'data/private_keys.p'
-NUMBER_OF_VOTES = 10000
- = ""
-REPORT_SHA2 = ""
+NUMBER_OF_VOTES = 100
 
 # mock data
 
-reports = [{REPORT_URL:"http://www.gazprom.ru/f/posts/05/298369/gazprom-annual-report-2014-ru.pdf", REPORT_SHA2:"959ca7b22af7725d7370ded13d3a3f53b3b2ff953a3f6267075438e141ee4525"]
+reports = [{"REPORT_URL":"http://www.gazprom.ru/f/posts/05/298369/gazprom-annual-report-2014-ru.pdf",
+            "REPORT_SHA2":"959ca7b22af7725d7370ded13d3a3f53b3b2ff953a3f6267075438e141ee4525"}]
 decision = [{u'да': True, u'нет': False, u'воздержался': False, u'не голосовал': False},
 {u'да': False, u'нет': True, u'воздержался': False, u'не голосовал': False},
 {u'да': False, u'нет': False, u'воздержался': True, u'не голосовал': False},
@@ -46,7 +45,7 @@ def create_votes(votes):
     for i in tqdm(range(1,votes+1)):
         # question one
         questions['questions'] = []
-        questions['questions'].append({"REPORT_URL": REPORT_URL , "REPORT_SHA2": REPORT_SHA2, "vote": []})
+        questions['questions'].append(reports[0])
         questions['questions'][0]['vote'].append(random.choice(decision))
         #sign
         private_key = RSA.importKey(private_keys[i])
