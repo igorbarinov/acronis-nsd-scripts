@@ -41,8 +41,8 @@ def create_keys(voters):
         privatepair[i] = privatekey
 
     # dump to pickle file for later usage
-    pickle.dump(publicpair, open("data/public_keys.p", "wb"))
-    pickle.dump(privatepair, open("data/private_keys.p", "wb"))
+    pickle.dump(publicpair, open("data/public_keys.p", "wb"), pickle.HIGHEST_PROTOCOL)
+    pickle.dump(privatepair, open("data/private_keys.p", "wb"), pickle.HIGHEST_PROTOCOL)
     logger.info("Finished generation of keys. Check data/ folder.")
 
 if __name__ == '__main__':

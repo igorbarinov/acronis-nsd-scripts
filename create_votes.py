@@ -15,7 +15,6 @@ import pprint
 import base64
 
 
-
 # setup loggging
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -32,7 +31,7 @@ NUMBER_OF_VOTES constant.
 
 """
 PRIVATE_KEY_FILE = 'data/private_keys.p'
-NUMBER_OF_VOTES = 10000
+NUMBER_OF_VOTES = 100000
 
 # mock data
 
