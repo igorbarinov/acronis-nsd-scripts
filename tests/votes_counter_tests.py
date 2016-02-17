@@ -32,7 +32,7 @@ class TestVotesCounter(unittest.TestCase):
         {
             "voter": {
                 "id": "5d7370ded13d"
-            }
+            },
             "answers": [
                 {
                     "question": {
@@ -70,13 +70,8 @@ class TestVotesCounter(unittest.TestCase):
 
         voteBase64 = b64encode(vote)
 
-        journal = """
-        {
-            "id": "5b9a74e9-52e0-4727-82a6-6b7286f6bcd3",
-            "type": "blockchain_merkletree",
-            "name": "Ernesto O'Connell",
-            "records": [
-                {
+        record = """
+                       {
                     "id": "b3749f23-d9f2-401e-91ca-673956a79066",
                     "fingerprints": [
                         {
@@ -108,22 +103,18 @@ class TestVotesCounter(unittest.TestCase):
                     "files": [],
                     "fingerprint": "oPRo+QHEkeA2ewxIaOV6WYveGsg=",
                     "nonce": "nIADOspyC8QnHiC9Nr8PnvP18OY="
-                },
-                {
-                    "id": "eb07c643-d62f-46bc-bfbc-11f158076136",
-                    "fingerprints": [
-                        {
-                            "metadata": "eyJoYXNoIjoiSzFkSkdOOHRwVW5JNGJ3TGRudGdwUmprTG5zTy9DUmNiTnkzWTZlQWxUbz0iLCJoYXNoQWxnb3JpdGhtIjoiU0hBXzI2NSIsInByb3BlcnRpZXMiOnsidHlwZSI6ImNvbS5hY3JvbmlzLmxlZGdlci5jaGFpbiJ9fQ==",
-                            "metadataContentType": "application/json;v=1",
-                            "metadataHash": "kl0xSzb+Xwr7uKirW1TjIyPmP6C27Gtl6BCFtEFhlP4=",
-                            "nonce": "4fCEdBM8Wxq2PnElPg0dJc6q+vM="
-                        }
-                    ],
-                    "timestamps": [],
-                    "files": [],
-                    "fingerprint": "xbILEYgJcKwk1Hs27+Q0VWkamqM=",
-                    "nonce": "nIADOspyC8QnHiC9Nr8PnvP18OY="
                 }
+        """ % voteBase64
+
+        records = (record+",")*5+record
+
+        journal = """
+        {
+            "id": "5b9a74e9-52e0-4727-82a6-6b7286f6bcd3",
+            "type": "blockchain_merkletree",
+            "name": "Ernesto O'Connell",
+            "records": [
+                %s
             ],
             "timestamps": [
                 {
@@ -131,7 +122,7 @@ class TestVotesCounter(unittest.TestCase):
                 }
             ]
         }
-        """ % voteBase64
+        """ % records
 
         expected = {
             "txid": "74dc7d0cadf60bbb1d06a99f41db7b0a4e620d4c66cdc020729796e6fd0b8260"
