@@ -67,18 +67,6 @@ class UserBehavior(TaskSet):
 
         self.vote = self.signed_votes[self.i]
 
-        payload = {"metadata": self.vote, \
-                  "metadataContentType":"application/json;enc=v1", \
-                   "metadataHash": hashlib.sha256(json.dumps(self.vote)).hexdigest(), \
-                  "nonce": str(uuid.uuid4())}
-
-
-        payload = {"metadata": base64.b64encode(json.dumps(self.vote)), \
-                  "metadataContentType":"application/json;enc=v1", \
-                   "metadataHash": hashlib.sha256(json.dumps(self.vote)).hexdigest(), \
-                  "nonce": str(uuid.uuid4())}
-
-
         # add fingerprint
         record_id = r.json()['id']
         logger.info('Adding new fingerprint..')
