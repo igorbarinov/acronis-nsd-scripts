@@ -13,6 +13,7 @@ import json
 import random
 import pprint
 import base64
+import gzip
 
 
 # setup loggging
@@ -46,6 +47,11 @@ decision = [{u'да': True, u'нет': False, u'воздержался': False, 
 boolean = [True,False]
 
 votes = []
+
+
+def save_zipped_pickle(obj, filename, protocol=-1):
+    with gzip.open(filename, 'wb') as f:
+        pickle.dump(obj, f, protocol)
 
 def create_vote(i):
     return {
@@ -95,8 +101,7 @@ def create_votes(votes):
         signature = signer.sign(hash)
         signed_votes.append({u"vote": json.dumps(vote), u"base64_signature":base64.b64encode(signature), u"user_id":i})
 
-    pickle.dump(signed_votes, open("data/signed_votes.p", "wb"), pickle.HIGHEST_PROTOCOL)
-
+    save_zipped_pickle(signed_votes,'data/signed_votes.p.gz')
 
 if __name__ == '__main__':
     logger.info('Start loading keys...')

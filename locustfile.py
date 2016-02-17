@@ -12,6 +12,7 @@ import hashlib
 import json
 import base64
 from Crypto.Hash import SHA256
+import gzip
 
 # setup loggging
 import logging
@@ -24,7 +25,7 @@ parser.read('load.ini')
 AL_JOURNAL = parser.get('general', 'journal')
 AL_HOST = parser.get('general', 'host')
 AL_AUTH = parser.get('general','auth')
-SIGNED_VOTES = 'data/signed_votes.p'
+SIGNED_VOTES = 'data/signed_votes.p.gz'
 
 
 """
@@ -36,14 +37,17 @@ or use it as slave and connect to a master
 locust  --slave --master-host=167.114.247.67:8080
 """
 
-
+def load_zipped_pickle(filename):
+    with gzip.open(filename, 'rb') as f:
+        loaded_object = pickle.load(f)
+        return loaded_object
 
 class UserBehavior(TaskSet):
     def on_start(self):
         self.i = 0
 
         logger.info('Loading signed votes..')
-        self.signed_votes = pickle.load(open(SIGNED_VOTES,'rb'))
+        self.signed_votes = load_zipped_pickle(SIGNED_VOTES)
         self.max = len(self.signed_votes)
 
         """ on_start is called when a Locust start before any task is scheduled """
