@@ -42,13 +42,15 @@ def load_zipped_pickle(filename):
         loaded_object = pickle.load(f)
         return loaded_object
 
+signed_votes = load_zipped_pickle(SIGNED_VOTES)
+
 class UserBehavior(TaskSet):
     def on_start(self):
         self.i = 0
 
         logger.info('Loading signed votes..')
-        self.signed_votes = load_zipped_pickle(SIGNED_VOTES)
-        self.max = len(self.signed_votes)
+
+        self.max = len(signed_votes)
 
         """ on_start is called when a Locust start before any task is scheduled """
         self.client.headers = {"Authorization":AL_AUTH,'Content-Type':'application/json'}
@@ -69,11 +71,11 @@ class UserBehavior(TaskSet):
         if self.i > self.max:
             self.i = 0
 
-        self.vote = self.signed_votes[self.i]
+        self.vote = signed_votes[self.i]
 
         # add fingerprint
         record_id = r.json()['id']
-        logger.info('Adding new fingerprint..')
+        logger.info('Adding a new fingerprint..')
         self.s.post(AL_HOST + "/api/records/" + record_id + "/fingerprints", json.dumps({"metadata": base64.b64encode(json.dumps(self.vote)),
                                                                                          "metadataContentType":"application/json;enc=v1",
                                                                                          "metadataHash": hashlib.sha256(json.dumps(self.vote)).hexdigest(),
