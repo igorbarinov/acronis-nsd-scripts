@@ -28,7 +28,7 @@ class TestVotesCounter(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_one_vote(self):
+    def test_six_vote(self):
         vote = """
         {
             "voter": {
