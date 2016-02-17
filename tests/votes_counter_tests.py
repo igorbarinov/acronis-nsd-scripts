@@ -12,6 +12,7 @@ To run tests:
 
 import unittest
 import logging
+import json
 
 from base64 import b64encode
 from faker import Factory
@@ -124,9 +125,21 @@ class TestVotesCounter(unittest.TestCase):
         }
         """ % records
 
-        expected = {
-            "txid": "74dc7d0cadf60bbb1d06a99f41db7b0a4e620d4c66cdc020729796e6fd0b8260"
-        }
+        expected = json.loads("""{
+            "\u0412\u044b\u0431\u043e\u0440 \u043d\u043e\u0432\u043e\u0433\u043e \u043f\u0440\u0435\u0434\u0441\u0435\u0434\u0430\u0442\u0435\u043b\u044f": {
+                "\u0418\u0432\u0430\u043d\u043e\u0432": 30,
+                "\u041f\u0435\u0442\u0440\u043e\u0432": 36,
+                "\u0421\u0438\u0434\u043e\u0440\u043e\u0432": 6,
+                "\u0432\u043e\u0437\u0434\u0435\u0440\u0436\u0430\u043b\u0441\u044f": 0,
+                "\u043d\u0435 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u043b": 0
+            },
+            "\u0423\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0435 \u0438\u0442\u043e\u0433\u043e\u0432 \u0440\u0430\u0431\u043e\u0442\u044b \u043a\u043e\u043c\u043f\u0430\u043d\u0438\u0438": {
+                "\u0432\u043e\u0437\u0434\u0435\u0440\u0436\u0430\u043b\u0441\u044f": 6,
+                "\u0434\u0430": 0,
+                "\u043d\u0435 \u0433\u043e\u043b\u043e\u0441\u043e\u0432\u0430\u043b": 0,
+                "\u043d\u0435\u0442": 0
+            }
+        }""")
 
         result = VotesCounter().count(journal)
 

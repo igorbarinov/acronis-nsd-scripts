@@ -39,4 +39,4 @@ class VotesCounter:
 
         result = {'txid': '74dc7d0cadf60bbb1d06a99f41db7b0a4e620d4c66cdc020729796e6fd0b8260'}
 
-        return result
+        return results
