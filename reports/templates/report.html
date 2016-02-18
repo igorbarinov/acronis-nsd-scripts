@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <meta name="description" content="Национальный расчётный депозитарий. Результаты голосования акционеров.">
+
+  <title>Национальный расчётный депозитарий.</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+</head>
+<body>
+
+  <div class="wrapper">
+
+    <header>
+      <div class="container-fluid">
+        <nav class="navbar navbar-default">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="/"><img src="images/logo.png"></a>
+          </div>
+        </nav>
+      </div>
+
+      <ul class="main-menu">
+        <a href="/"><li>Результаты голосования</a></li>
+      </ul>
+    </header>
+
+    <main class="main-content">
+      <div class="container-fluid">
+        <h1>Результаты голосования акционеров</h1>
+        <div class="voting-info">
+          <h2>Общая информация о голосовании</h2>
+          <p>Дата проведения: @date</p>
+          <p>SHA-256: @hash</p>
+          <p>TXID: <a href="https://insight.bitpay.com/tx/@{txid}" target="_blank">@txid</a></p>
+          <p><a href="raw/journal.json">Загрузить журнал</a></p>
+        </div>
+        <div class="voting-results">
+          <h2>Результаты голосования</h2>
+          #set @id = 1:
+          #for @question in @questions:
+            <div class="question">
+              <p class="question-title">Вопрос №@id : @question</p>
+              #set @votes = @questions.get(@question):
+              <div class="answers">
+                #for @answer in @votes:
+                <p class="answer"><span class="answer-variant">@answer:</span><span class="answer-value">@votes.get(@answer) голосов</span></p>
+                #end
+              </div>
+            </div>
+            #set @id = @id + 1:
+          #end
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <p>Небанковская кредитная организация закрытое акционерное общество «Национальный расчетный депозитарий» (НКО ЗАО НРД) – центральный депозитарий Российской Федерации.</p>
+      <p>© 1996-2016 НКО ЗАО НРД</p>
+    </footer>
+
+  </div>
+
+</body>
+</html>
