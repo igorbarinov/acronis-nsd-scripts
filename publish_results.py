@@ -51,7 +51,7 @@ def export_raw(journalString):
     export_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), raw_path, filename)
 
     with open(export_path, 'w') as json_file:
-        json.dump(journal, json_file)
+        json.dump(journalString, json_file)
 
 def generate_html(votingResults):
     # Load html template for rendering
