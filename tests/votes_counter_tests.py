@@ -45,6 +45,7 @@ class TestVotesCounter(unittest.TestCase):
         records = (record+",")*(voters_number-1)+record
 
         journal = journal_template % records
+        del records
 
         expected = json.loads("""{
             "Выбор нового председателя": {
@@ -63,6 +64,7 @@ class TestVotesCounter(unittest.TestCase):
         }""")
 
         result = VotesCounter().count(journal)
+        del journal
 
         self.assertEqual(result, expected)
 
