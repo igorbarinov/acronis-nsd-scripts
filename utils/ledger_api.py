@@ -72,7 +72,7 @@ class LedgerApi:
         self.dumpHttpResponse(res)
         self.logger.debug('Journal was successfully retrieved.')
 
-        return res.json()
+        return res.content
 
     def createJournal(self, auth, journalName, journalType='blockchain_merkletree'):
         headers = self.headers.copy()
@@ -119,7 +119,7 @@ class LedgerApi:
         recordId = res.json()["id"]
         return recordId
 
-    def saveRecordData(self, auth, recordId, jsonData):
+    def saveRecordFingerprint(self, auth, recordId, jsonData):
         headers = self.headers.copy()
         headers.update({ 'Authorization': auth })
 
