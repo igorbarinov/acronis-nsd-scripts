@@ -7,6 +7,8 @@ import base64
 
 import sys
 
+import datetime
+
 
 class VotesCounter:
     def __init__(self):
@@ -43,11 +45,17 @@ class VotesCounter:
         for record in journal['records']:
             process_record(record)
 
+        report = {}
+        report['date'] = str(datetime.datetime.now())
+        if journal['timestamps'][0].__contains__('proof'):
+            report['hash'] = journal['timestamps']['proof']['root']
+        report['txid'] = journal['timestamps'][0]['txid']
+        report['questions'] = results
+
         del journal
+        print(json.dumps(report, sort_keys=False, encoding="UTF-8", indent=4, separators=(',',': ')))
 
-        print(json.dumps(results, sort_keys=True, encoding="UTF-8", indent=4, separators=(',',': ')))
-
-        return results
+        return report
 
 
 if __name__ == '__main__':
