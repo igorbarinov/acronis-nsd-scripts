@@ -1,0 +1,13 @@
+        {
+            "id": "5b9a74e9-52e0-4727-82a6-6b7286f6bcd3",
+            "type": "blockchain_merkletree",
+            "name": "Ernesto O'Connell",
+            "records": [
+                %s
+            ],
+            "timestamps": [
+                {
+                    "txid": "74dc7d0cadf60bbb1d06a99f41db7b0a4e620d4c66cdc020729796e6fd0b8260"
+                }
+            ]
+        }
