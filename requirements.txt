@@ -2,20 +2,26 @@
 # https://github.com/Damnever/pigar
 
 # create_voters.py: 16
+# create_votes.py: 24
 tqdm == 3.8.0
 
-# locustfile.py: 4
+# locustfile.py: 5
 locustio == 0.7.3
 
 # create_voters.py: 5,6,7
+# create_votes.py: 6,7,8,9,10
+# locustfile.py: 14
 pycrypto == 2.6.1
 
 # setup_ledger.py: 7
+# tests/publish_results_tests.py: 18
+# tests/votes_counter_tests.py: 19
 fake_factory == 0.5.3
 
-# locustfile.py: 5
+# locustfile.py: 6
 # setup_ledger.py: 4,5
+# utils/ledger_api.py: 7
 requests == 2.9.1
 
-# setup_ledger.py: 29
-click == 6.2
+# publish_results.py: 14
+quik == 0.2.2
