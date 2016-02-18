@@ -34,15 +34,9 @@ Open a web monitor `http://127.0.0.1:8089` and run load test.
 
 To see html report with voting results after test scenario:
 
-1. Run report generation script
+1. Run report generation script `python publish_results.py`
 
-`python publish_results.py`
-
-2. Start expressjs web-server
-
-`cd reports`
-
-`npm start`
+2. Start expressjs web-server from the reports directory `npm start`
 
 3. Open a web browser `http://127.0.0.1:8080` and see the results.
 
