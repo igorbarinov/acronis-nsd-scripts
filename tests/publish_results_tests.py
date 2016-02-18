@@ -38,54 +38,14 @@ class TestResultPublisher(unittest.TestCase):
         # Initialize ledger api client
         self.ledgerApi = LedgerApi(baseUrl)
 
-        voteJson = """{
-            "voter": {
-                "id": "b2ff953a3f6267"
-            },
-            "answers": [
-                {
-                    "question": {
-                        "id": "1",
-                        "title": "Утверждение итогов работы компании",
-                        "files": [
-                            {
-                                "file_title": "Годовойотчёт",
-                                "file_url": "http://www.gazprom.ru/f/posts/05/298369/gazprom-annual-report-2014-ru.pdf",
-                                "file_sha2": "959ca7b22af7725d7370ded13d3a3f53b3b2ff953a3f6267075438e141ee4525"
-                            }
-                        ]
-                    },
-                    "vote": {
-                        "да": "false",
-                        "нет": "false",
-                        "воздержался": "true",
-                        "не голосовал": "false"
-                    }
-                },
-                {
-                    "question": {
-                        "id": "1",
-                        "title": "Выбор нового председателя"
-                    },
-                    "vote": {
-                        "Иванов": 5,
-                        "Сидоров": 1,
-                        "Петров": 6,
-                        "воздержался": false,
-                        "не голосовал": false
-                    }
-                }
-            ]
-        }"""
+        with open('tests/resources/fingerprint_template.json','r') as fingerprint_template_file:
+            fingerprint_template = fingerprint_template_file.read()
+        with open('tests/resources/vote_template.json','r') as vote_template_file:
+            vote_template = vote_template_file.read()
 
-        voteBase64 = b64encode(voteJson)
+        voteBase64 = b64encode(vote_template)
 
-        self.testRecordData = """{
-            "nonce": [],
-            "metadata": "%s",
-            "metadataContentType": "application/json;enc=v1",
-            "metadataHash": []
-        }""" % voteBase64
+        self.testFingerprint = fingerprint_template % voteBase64
 
         self.username = faker.email()
         self.password = "nq5YxjWKxhQABvYa"
@@ -97,45 +57,17 @@ class TestResultPublisher(unittest.TestCase):
         journalId = self.ledgerApi.createJournal(session, faker.name())
 
         recordId = self.ledgerApi.createRecord(session)
-        self.ledgerApi.saveRecordFingerprint(session, recordId, self.testRecordData)
+        self.ledgerApi.saveRecordFingerprint(session, recordId, self.testFingerprint)
         self.ledgerApi.commitRecord(session, journalId, recordId)
 
         # Uncomment next line if need to timestamp (create a transaction in blockchain)
-        #self.ledgerApi.timestampJournal(session, journalId)
+        self.ledgerApi.timestampJournal(session, journalId)
 
         return journalId
 
     def test_publish_results(self):
         publish_results(self.username, self.password, self.journalId)
         self.assertTrue(True)
-
-    def test_export_raw(self):
-        export_raw("{raw_data}")
-        self.assertTrue(True)
-
-    def test_export_html(self):
-        report = {
-            "date": datetime.datetime.now(),
-            "hash": "AAAA",
-            "txid": "u35286523756823528",
-            "questions": {
-                "Выбор нового председателя": {
-                    "Иванов": 30,
-                    "Петров": 36,
-                    "Сидоров": 6,
-                    "воздержался": 0,
-                    "не голосовал": 0
-                },
-                "Утверждение итогов работы компании": {
-                    "воздержался": 6,
-                    "да": 0,
-                    "не голосовал": 0,
-                    "нет": 0
-                }
-            }
-        }
-        html = generate_html(report)
-        export_html(html)
 
 if __name__ == '__main__':
     unittest.main()

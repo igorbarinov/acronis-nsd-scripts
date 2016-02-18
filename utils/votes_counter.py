@@ -54,7 +54,7 @@ class VotesCounter:
             process_record(record)
 
         report = {}
-        report['date'] = str(datetime.datetime.now())
+        report['date'] = str(datetime.date.today())
         if journal.__contains__('timestamps'):
             if journal['timestamps'][0].__contains__('proof'):
                 report['hash'] = journal['timestamps']['proof']['root']
