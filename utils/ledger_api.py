@@ -72,7 +72,7 @@ class LedgerApi:
         self.dumpHttpResponse(res)
         self.logger.debug('Journal was successfully retrieved.')
 
-        return res.content
+        return res.text
 
     def createJournal(self, auth, journalName, journalType='blockchain_merkletree'):
         headers = self.headers.copy()
