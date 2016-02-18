@@ -29,11 +29,11 @@ class TestVotesCounter(unittest.TestCase):
         pass
 
     def test_six_vote(self):
-        with open('resources/journal_template.json','r') as journal_template_file:
+        with open('tests/resources/journal_template.json','r') as journal_template_file:
             journal_template = journal_template_file.read()
-        with open('resources/journal_record_template.json','r') as record_template_file:
+        with open('tests/resources/journal_record_template.json','r') as record_template_file:
             record_template = record_template_file.read()
-        with open('resources/record_vote_template.json','r') as vote_template_file:
+        with open('tests/resources/record_vote_template.json','r') as vote_template_file:
             vote_template = vote_template_file.read()
 
         vote = vote_template
