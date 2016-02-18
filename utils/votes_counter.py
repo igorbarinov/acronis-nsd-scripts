@@ -4,9 +4,9 @@
 
 import json
 import base64
-import gc
-import time
-import multiprocessing
+
+import sys
+
 
 class VotesCounter:
     def __init__(self):
@@ -18,17 +18,20 @@ class VotesCounter:
 
         results = {}
 
-        journal = json.loads(journalString);
+        journal = json.loads(journalString)
         del journalString
 
         def process_record(record):
             """
-            Process single jpurnal record
+            Process single journal record
             :param record:
             :return: nothing, all results is a side effect in 'results' variable
             """
             for fingerprint in record['fingerprints']:
-                vote = json.loads(base64.b64decode(fingerprint['metadata']))
+                decoded_metadata = json.loads(base64.b64decode(fingerprint['metadata']))
+                if not decoded_metadata.__contains__('vote'):
+                    continue
+                vote = decoded_metadata['vote']
                 for answer in vote['answers']:
                     question_title = answer['question']['title']
                     question_result = results.get(question_title,None)
@@ -45,3 +48,8 @@ class VotesCounter:
         print(json.dumps(results, sort_keys=True, encoding="UTF-8", indent=4, separators=(',',': ')))
 
         return results
+
+
+if __name__ == '__main__':
+    journalString = open(sys.argv[1],'r').read()
+    VotesCounter().count(journalString)
