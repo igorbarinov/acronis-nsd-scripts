@@ -11,10 +11,14 @@ import Crypto.Util.number as CUN
 import os
 import json
 import random
+import pprint
+import base64
+
+
 
 # setup loggging
 import logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 # and progressbar
 from tqdm import *
@@ -28,33 +32,79 @@ NUMBER_OF_VOTES constant.
 
 """
 PRIVATE_KEY_FILE = 'data/private_keys.p'
-NUMBER_OF_VOTES = 100
+NUMBER_OF_VOTES = 10000
 
 # mock data
 
-reports = [{"REPORT_URL":"http://www.gazprom.ru/f/posts/05/298369/gazprom-annual-report-2014-ru.pdf",
-            "REPORT_SHA2":"959ca7b22af7725d7370ded13d3a3f53b3b2ff953a3f6267075438e141ee4525"}]
+reports = [{u"REPORT_URL":u"http://www.gazprom.ru/f/posts/05/298369/gazprom-annual-report-2014-ru.pdf",
+            u"REPORT_SHA2":u"959ca7b22af7725d7370ded13d3a3f53b3b2ff953a3f6267075438e141ee4525"}]
+
 decision = [{u'да': True, u'нет': False, u'воздержался': False, u'не голосовал': False},
 {u'да': False, u'нет': True, u'воздержался': False, u'не голосовал': False},
 {u'да': False, u'нет': False, u'воздержался': True, u'не голосовал': False},
 {u'да': False, u'нет': False, u'воздержался': False, u'не голосовал': True}]
 
-def create_votes(votes):
+boolean = [True,False]
 
-    questions = {}
+votes = []
+
+def create_vote(i):
+    return {
+            u"voter": {
+               u"id": i
+            },
+            u"answers": [
+                {
+                    u"question": {
+                        u"id": u"1",
+                        u"type": u"YesNo",
+                        u"title": u"Утверждение итогов работы компании",
+                        u"files": [
+                            {
+                                u"file_title": u"Годовойотчёт",
+                                u"file_url": u"http://www.gazprom.ru/f/posts/05/298369/gazprom-annual-report-2014-ru.pdf",
+                                u"file_sha2": u"959ca7b22af7725d7370ded13d3a3f53b3b2ff953a3f6267075438e141ee4525"
+                            }
+                        ]
+                    },
+                    u"vote": random.choice(decision)
+                },
+                {
+                    u"question": {
+        u"id": u"2",
+                       u"type": u"CandidatVotes",
+                        u"title": u"Выбор нового председателя"
+                    },
+                    u"vote": {
+                        u"Иванов": random.randint(1,9),
+                        u"Сидоров": random.randint(1,9),
+                        u"Петров": random.randint(1,9),
+                        u"воздержался": random.choice(boolean) ,
+                        u"не голосовал": random.choice(boolean)
+                    }
+                }
+            ]
+        }
+
+def create_votes(votes):
+    signed_votes = []
     for i in tqdm(range(1,votes+1)):
-        # question one
-        questions['questions'] = []
-        questions['questions'].append(reports[0])
-        questions['questions'][0]['vote'].append(random.choice(decision))
-        #sign
+        vote = create_vote(i)
         private_key = RSA.importKey(private_keys[i])
-        hash = SHA256.new(json.dumps(questions))
+        hash = SHA256.new(json.dumps(vote))
         signer = PKCS1_v1_5.new(private_key)
         signature = signer.sign(hash)
-        logger.debug({"vote": json.dumps(questions), "signature":signature, "user_id":i})
+        signed_votes.append({u"vote": json.dumps(vote), u"base64_signature":base64.b64encode(signature), u"user_id":i})
+
+    pickle.dump(signed_votes, open("data/signed_votes.p", "wb"), pickle.HIGHEST_PROTOCOL)
+
 
 if __name__ == '__main__':
+    logger.info('Start loading keys...')
     private_keys = pickle.load(open(PRIVATE_KEY_FILE,'rb'))
-
+    logger.info('End loading keys...')
+    # debug
+    # pp = pprint.PrettyPrinter(indent=4)
+    # pp.pprint(create_vote(1))
     create_votes(NUMBER_OF_VOTES)
+    logger.info('Bye')
