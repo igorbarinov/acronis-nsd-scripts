@@ -20,7 +20,7 @@ from ConfigParser import SafeConfigParser
 
 from utils.votes_counter import VotesCounter
 from utils.ledger_api import LedgerApi
-
+from utils.votes_counter_parallel import VotesPCounter
 
 faker = Factory.create()
 
@@ -63,8 +63,8 @@ class TestVotesCounter(unittest.TestCase):
             }
         }""")
 
-        result = VotesCounter().count(journal)
-        del journal
+        result = VotesPCounter().count(journal)
+
 
         self.assertEqual(result, expected)
 
