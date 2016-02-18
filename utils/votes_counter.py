@@ -9,15 +9,23 @@ import sys
 
 import datetime
 
+# converts python unicode type strings inside dictionary to vanila string types
+def byteify(input):
+    if isinstance(input, dict):
+        return {byteify(key): byteify(value)
+                for key, value in input.iteritems()}
+    elif isinstance(input, list):
+        return [byteify(element) for element in input]
+    elif isinstance(input, unicode):
+        return input.encode('utf-8')
+    else:
+        return input
 
 class VotesCounter:
     def __init__(self):
         pass
 
     def count(self, journalString):
-        # Implement voting calc map-reduce task here
-        # May be should use Pool.map for this
-
         results = {}
 
         journal = json.loads(journalString)
@@ -54,10 +62,9 @@ class VotesCounter:
         report['questions'] = results
 
         del journal
-        print(json.dumps(report, sort_keys=False, encoding="UTF-8", indent=4, separators=(',',': ')))
+        #print(json.dumps(report, sort_keys=False, encoding="UTF-8", indent=4, separators=(',',': '), ensure_ascii=False))
 
-        return report
-
+        return byteify(report)
 
 if __name__ == '__main__':
     journalString = open(sys.argv[1],'r').read()
