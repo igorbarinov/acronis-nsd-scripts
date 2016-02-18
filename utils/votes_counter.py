@@ -41,7 +41,7 @@ class VotesCounter:
                 decoded_metadata = json.loads(base64.b64decode(fingerprint['metadata']))
                 if not decoded_metadata.__contains__('vote'):
                     continue
-                vote = decoded_metadata['vote']
+                vote = json.loads(decoded_metadata['vote'])
                 for answer in vote['answers']:
                     question_title = answer['question']['title']
                     question_result = results.get(question_title,None)
@@ -55,7 +55,7 @@ class VotesCounter:
 
         report = {}
         report['date'] = str(datetime.date.today())
-        if journal.__contains__('timestamps'):
+        if journal.__contains__('timestamps') and len(journal['timestamps']) > 0:
             if journal['timestamps'][0].__contains__('proof'):
                 report['hash'] = journal['timestamps']['proof']['root']
             report['txid'] = journal['timestamps'][0]['txid']

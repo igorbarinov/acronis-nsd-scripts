@@ -13,7 +13,7 @@ from utils.votes_counter import VotesCounter
 from ConfigParser import SafeConfigParser
 from quik import FileLoader
 
-logging.basicConfig(level = logging.DEBUG)
+logging.basicConfig(level = logging.INFO)
 
 # Load configuration params
 parser = SafeConfigParser()
