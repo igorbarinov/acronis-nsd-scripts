@@ -47,9 +47,10 @@ class VotesCounter:
 
         report = {}
         report['date'] = str(datetime.datetime.now())
-        if journal['timestamps'][0].__contains__('proof'):
-            report['hash'] = journal['timestamps']['proof']['root']
-        report['txid'] = journal['timestamps'][0]['txid']
+        if journal.__contains__('timestamps'):
+            if journal['timestamps'][0].__contains__('proof'):
+                report['hash'] = journal['timestamps']['proof']['root']
+            report['txid'] = journal['timestamps'][0]['txid']
         report['questions'] = results
 
         del journal
