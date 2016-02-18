@@ -44,9 +44,7 @@ To see html report with voting results after test scenario:
 
 `npm start`
 
-3. Start expressjs web-server
-
-Open a web browser `http://127.0.0.1:8080` and see the results.
+3. Open a web browser `http://127.0.0.1:8080` and see the results.
 
 ## Scripts overview
 
