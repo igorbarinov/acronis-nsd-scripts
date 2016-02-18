@@ -1,4 +1,9 @@
-# Load testing scripts for the nrd.ru pilot project
+# Load testing scripts for the nsd.ru pilot project
+
+## Prerequsites
+
+python for scenario execution
+nodejs&npm for reports server
 
 ## Installation
 
@@ -27,11 +32,6 @@ Open a web monitor `http://127.0.0.1:8089` and run load test.
 
 ![Load](https://api.monosnap.com/rpc/file/download?id=ZpyRHYKB7ZEdxY1bGHUfK18D2b7zhg)
 
-
-### Advanced scenario
-
-  TODO
-
 ## Scripts overview
 
 `load.ini` - configuration file, updated by setup_ledger.py
@@ -42,5 +42,4 @@ Open a web monitor `http://127.0.0.1:8089` and run load test.
 
 `setup_ledger.py` - create a user and a journal in Acronis Ledger for load tests and store the data in load.ini file for future usage
 
-
-
+`publish_results.py` - generates raw and html reports for voting in directory /reports/public. To see html report start expressjs server in 'reports' directory by command "npm start"
