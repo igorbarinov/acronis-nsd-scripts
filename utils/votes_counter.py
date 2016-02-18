@@ -4,6 +4,7 @@
 
 import json
 import base64
+import gc
 import time
 import multiprocessing
 
