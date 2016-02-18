@@ -58,12 +58,6 @@ Create journal
 
 logger.debug('Starting creating a journal')
 
-def create_journal():
-    payload = '{"name": "' + faker.name() + '", "type": "blockchain_merkletree"}'
-    headers = {'Content-Type':'application/json', "Authorization":AL_AUTH }
-    r = requests.post(AL_HOST + '/api/journals', headers = headers, data = payload)
-    return r.json()["id"]
-
 AL_JOURNAL = ledgerApi.createJournal(AL_AUTH, faker.name())
 
 # save journal info to cinfig
