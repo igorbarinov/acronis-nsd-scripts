@@ -20,7 +20,6 @@ from ConfigParser import SafeConfigParser
 
 from utils.votes_counter import VotesCounter
 from utils.ledger_api import LedgerApi
-from utils.votes_counter_parallel import VotesPCounter
 
 faker = Factory.create()
 
