@@ -11,6 +11,7 @@ from datetime import datetime
 from utils.ledger_api import LedgerApi
 from utils.votes_counter import VotesCounter
 from ConfigParser import SafeConfigParser
+from quik import FileLoader
 
 logging.basicConfig(level = logging.DEBUG)
 
@@ -22,8 +23,10 @@ baseUrl = parser.get('general', 'host')
 journalId = parser.get('general', 'journal')
 username = parser.get('general', 'username')
 password = parser.get('general', 'password')
-raw_path = parser.get('reporting', 'raw_path')
-html_path = parser.get('reporting', 'html_path')
+
+raw_path = parser.get('reporting', 'raw_export_path')
+html_path = parser.get('reporting', 'html_export_path')
+html_template_path = parser.get('reporting', 'html_template')
 
 def publish_results(username, password, journalId):
     # Initialize Ledger API
@@ -33,29 +36,34 @@ def publish_results(username, password, journalId):
     session = ledgerApi.authenticateUser(username, password)
 
     # Retrieve voting journal data
-    journal = ledgerApi.getJournal(session, journalId)
-    export_raw(journal)
+    journalString = ledgerApi.getJournal(session, journalId)
+    export_raw(journalString)
 
     # Calculate voting results
-    results = VotesCounter().count(journal)
+    votingResults = VotesCounter().count(journalString)
 
     # Export result to html presentation
-    html = generate_html(results)
+    html = generate_html(votingResults)
     export_html(html)
 
-def export_raw(journal):
-    filename = datetime.now().strftime('%Y%m%d%H%M%S') + '.json'
+def export_raw(journalString):
+    filename = 'journal.json'
     export_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), raw_path, filename)
 
     with open(export_path, 'w') as json_file:
         json.dump(journal, json_file)
 
-def generate_html(results):
-    #TODO html template code here
-    return "<html></html>"
+def generate_html(votingResults):
+    # Load html template for rendering
+    template = FileLoader("").load_template(html_template_path)
+
+    # Render voting results data
+    html = template.render(votingResults)
+
+    return html
 
 def export_html(html):
-    filename = datetime.now().strftime('%Y%m%d%H%M%S') + '.html'
+    filename = 'index.html'
     export_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), html_path, filename)
 
     with open(export_path, 'w') as text_file:

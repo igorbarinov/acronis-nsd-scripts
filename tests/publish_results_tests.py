@@ -14,10 +14,14 @@ import unittest
 import logging
 
 from base64 import b64encode
+import datetime
 from faker import Factory
 from ConfigParser import SafeConfigParser
 
 from publish_results import publish_results
+from publish_results import generate_html
+from publish_results import export_raw
+from publish_results import export_html
 from utils.ledger_api import LedgerApi
 
 faker = Factory.create()
@@ -101,9 +105,37 @@ class TestResultPublisher(unittest.TestCase):
 
         return journalId
 
-    def test_raw_result_saved(self):
+    def test_publish_results(self):
         publish_results(self.username, self.password, self.journalId)
         self.assertTrue(True)
+
+    def test_export_raw(self):
+        export_raw("{raw_data}")
+        self.assertTrue(True)
+
+    def test_export_html(self):
+        report = {
+            "date": datetime.datetime.now(),
+            "hash": "AAAA",
+            "txid": "u35286523756823528",
+            "questions": {
+                "Выбор нового председателя": {
+                    "Иванов": 30,
+                    "Петров": 36,
+                    "Сидоров": 6,
+                    "воздержался": 0,
+                    "не голосовал": 0
+                },
+                "Утверждение итогов работы компании": {
+                    "воздержался": 6,
+                    "да": 0,
+                    "не голосовал": 0,
+                    "нет": 0
+                }
+            }
+        }
+        html = generate_html(report)
+        export_html(html)
 
 if __name__ == '__main__':
     unittest.main()
