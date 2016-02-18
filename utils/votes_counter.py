@@ -18,7 +18,7 @@ class VotesCounter:
 
         results = {}
 
-        journal = json.loads(journalString);
+        journal = json.loads(journalString)
         del journalString
 
         def process_record(record):
