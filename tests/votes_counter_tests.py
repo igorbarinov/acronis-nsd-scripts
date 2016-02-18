@@ -63,7 +63,7 @@ class TestVotesCounter(unittest.TestCase):
             }
         }""")
 
-        result = VotesPCounter().count(journal)
+        result = VotesCounter().count(journal)
 
 
         self.assertEqual(result, expected)
