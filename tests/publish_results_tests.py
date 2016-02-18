@@ -97,7 +97,7 @@ class TestResultPublisher(unittest.TestCase):
         journalId = self.ledgerApi.createJournal(session, faker.name())
 
         recordId = self.ledgerApi.createRecord(session)
-        self.ledgerApi.saveRecordData(session, recordId, self.testRecordData)
+        self.ledgerApi.saveRecordFingerprint(session, recordId, self.testRecordData)
         self.ledgerApi.commitRecord(session, journalId, recordId)
 
         # Uncomment next line if need to timestamp (create a transaction in blockchain)
