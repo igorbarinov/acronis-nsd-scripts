@@ -32,6 +32,7 @@ NUMBER_OF_VOTES constant.
 
 """
 PRIVATE_KEY_FILE = 'data/private_keys.p'
+PUBLIC_KEY_FILE = 'data/public_keys.p'
 NUMBER_OF_VOTES = 100000
 
 # mock data
@@ -99,14 +100,21 @@ def create_votes(votes):
         hash = SHA256.new(json.dumps(vote))
         signer = PKCS1_v1_5.new(private_key)
         signature = signer.sign(hash)
-        signed_votes.append({u"vote": json.dumps(vote), u"base64_signature":base64.b64encode(signature), u"user_id":i})
+        signed_votes.append({u"vote": json.dumps(vote),
+                             u"base64_signature":base64.b64encode(signature),
+                             u"user_id":i,
+                             u"base64_publickey": base64.b64encode(public_keys[i])})
+        # logger.info(base64.b64encode(public_keys[i]))
 
     save_zipped_pickle(signed_votes,'data/signed_votes.p.gz')
 
 if __name__ == '__main__':
-    logger.info('Start loading keys...')
+    logger.info('Start loading private keys...')
     private_keys = pickle.load(open(PRIVATE_KEY_FILE,'rb'))
     logger.info('End loading keys...')
+    logger.info('Start loading public keys..')
+    public_keys = pickle.load((open(PUBLIC_KEY_FILE,'rb')))
+    logger.info('End loading keys..')
     # debug
     # pp = pprint.PrettyPrinter(indent=4)
     # pp.pprint(create_vote(1))
