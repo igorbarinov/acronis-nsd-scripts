@@ -22,4 +22,4 @@ ledgerApi = LedgerApi(baseUrl)
 
 session = ledgerApi.authenticateUser(username, password)
 
-ledgerApi.timestampJournal(session, journalId)
+ledgerApi.timestampJournal(session, journal)
