@@ -1,4 +1,4 @@
-.idea/
+.idea/*
 .DS_store
-.init.py.swp/
-.pyc
+.init.py.swp/*
+*.pyc
